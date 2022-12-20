@@ -1,13 +1,19 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.3.32825.248
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.32802.440
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Main", "Main\Main.csproj", "{5998623E-051B-43E7-A592-5911DBD451FB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Main", "Main\Main.csproj", "{5998623E-051B-43E7-A592-5911DBD451FB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Contracts", "Contracts\Contracts.csproj", "{6BF7A2ED-656C-4D0E-ACCA-4831E5236D93}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Contracts", "Contracts\Contracts.csproj", "{6BF7A2ED-656C-4D0E-ACCA-4831E5236D93}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LoggerService", "LoggerService\LoggerService.csproj", "{204EC452-2E4A-408E-9D29-EB53CAFA4309}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LoggerService", "LoggerService\LoggerService.csproj", "{204EC452-2E4A-408E-9D29-EB53CAFA4309}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "lab1", "lab1", "{95A0234D-9102-4BDB-B1FB-72D053B5A2BF}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "KT", "KT", "{73DD0EDD-6698-48F7-83A3-37F969EB5EF3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WPF_Lesson", "WPF_Lesson\WPF_Lesson.csproj", "{5C5DC576-D604-4041-B33A-94AF4C94A8F3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,9 +33,19 @@ Global
 		{204EC452-2E4A-408E-9D29-EB53CAFA4309}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{204EC452-2E4A-408E-9D29-EB53CAFA4309}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{204EC452-2E4A-408E-9D29-EB53CAFA4309}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5C5DC576-D604-4041-B33A-94AF4C94A8F3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5C5DC576-D604-4041-B33A-94AF4C94A8F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5C5DC576-D604-4041-B33A-94AF4C94A8F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5C5DC576-D604-4041-B33A-94AF4C94A8F3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{5998623E-051B-43E7-A592-5911DBD451FB} = {95A0234D-9102-4BDB-B1FB-72D053B5A2BF}
+		{6BF7A2ED-656C-4D0E-ACCA-4831E5236D93} = {95A0234D-9102-4BDB-B1FB-72D053B5A2BF}
+		{204EC452-2E4A-408E-9D29-EB53CAFA4309} = {95A0234D-9102-4BDB-B1FB-72D053B5A2BF}
+		{5C5DC576-D604-4041-B33A-94AF4C94A8F3} = {73DD0EDD-6698-48F7-83A3-37F969EB5EF3}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {3E22789F-1B6A-45CC-BF12-3BE9C8BD0DFA}

@@ -1,0 +1,19 @@
+﻿<Window x:Class="WPF_Lesson.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WPF_Lesson"
+        mc:Ignorable="d"
+        Title="KT_Yavkin" Height="350" Width="525">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="42"/>
+            <RowDefinition/>
+            <RowDefinition Height="42"/>
+        </Grid.RowDefinitions>
+        <Rectangle Fill="#FFF4F4F5" Grid.Row="2" StrokeThickness="0"/>
+        <Button x:Name="ButtonBack" Click="ButtonBack_OnClick" Content="Назад" HorizontalAlignment="Left" Margin="10,10,0,10" Width="75"/>
+        <Frame x:Name="MainFrame" Source="Pages/AuthPage.xaml" Grid.Row="1" Navigated="MainFrame_OnNavigated"/>
+    </Grid>
+</Window>
