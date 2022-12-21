@@ -17,7 +17,7 @@ namespace Entities.Models
         [Required(ErrorMessage = "Position is a required field.")]
         [MaxLength(20, ErrorMessage = "Maximum length for the Position is 20 characters.")]
         [ForeignKey(nameof(RealtyCompany))]
-        public Guid ClientId { get; set; }
+        public Guid RealtyCompanyId { get; set; }
         public RealtyCompany RealtyCompany { get; set; }
     }
 }

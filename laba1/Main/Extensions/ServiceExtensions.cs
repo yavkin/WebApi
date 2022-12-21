@@ -20,6 +20,9 @@ namespace Main.Extensions {
         public static IMvcBuilder AddCustomCSVFormatter(this IMvcBuilder builder) =>
 builder.AddMvcOptions(config => config.OutputFormatters.Add(new
 CsvOutputFormatter()));
+        public static IMvcBuilder AddCustomCSVFormatter2(this IMvcBuilder builder) =>
+builder.AddMvcOptions(config => config.OutputFormatters.Add(new
+CsvOutputFormatter2()));
     }
 
 }
