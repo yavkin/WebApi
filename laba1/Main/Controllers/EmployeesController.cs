@@ -45,35 +45,9 @@ namespace Main.Controllers
             }
             var employeesFromDb = await _repository.Employee.GetEmployeesAsync(companyId,
             employeeParameters, trackChanges: false);
-            Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(employeesFromDb.MetaData));
+            Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(employeesFromDb));
             var employeesDto = _mapper.Map<IEnumerable<EmployeeDto>>(employeesFromDb);
             return Ok(employeesDto);
-        }
-        [HttpPost]
-        public IActionResult CreateEmployeeForCompany(Guid companyId, [FromBody] EmployeeForCreationDto employee)
-        {
-            if (employee == null)
-            {
-                _logger.LogError("EmployeeForCreationDto object sent from client is null.");
-            return BadRequest("EmployeeForCreationDto object is null");
-            }
-            patchDoc.ApplyTo(employeeToPatch, ModelState);
-            TryValidateModel(employeeToPatch);
-            if (!ModelState.IsValid)
-            {
-                _logger.LogError("Invalid model state for the patch document");
-                return UnprocessableEntity(ModelState);
-            }
-            _mapper.Map(employeeToPatch, employeeEntity);
-            var employeeEntity = _mapper.Map<Employee>(employee);
-            _repository.Employee.CreateEmployeeForCompany(companyId, employeeEntity);
-            _repository.Save();
-            var employeeToReturn = _mapper.Map<EmployeeDto>(employeeEntity);
-            return CreatedAtRoute("GetEmployeeForCompany", new
-            {
-                companyId,
-                id = employeeToReturn.Id
-            }, employeeToReturn);
         }
         [HttpDelete("{id}")]
         [ServiceFilter(typeof(ValidateEmployeeForCompanyExistsAttribute))]
