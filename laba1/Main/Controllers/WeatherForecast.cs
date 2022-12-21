@@ -1,3 +1,4 @@
+using Contracts;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using static Contracts.Class1;
@@ -16,5 +17,17 @@ public class WeatherForecastController : ControllerBase {
         _logger.LogWarn("Вот сообщение предупреждения от нашего контроллера значений.");
         _logger.LogError("Вот сообщение об ошибке от нашего контроллера значений.");
     return new string[] { "value1", "value2" };
+    }
+    private readonly IRepositoryManager _repository;
+    public WeatherForecastController(IRepositoryManager repository)
+    {
+        repository = repository;
+    }
+    [HttpGet]
+    public ActionResult<IEnumerable<string>> Get()
+    {
+        repository.Company.AnyMethodFromCompanyRepository();
+        _repository.Employee.AnyMethodFromEmployeeRepository();
+        return new string[] { "value1", "value2" };
     }
 }

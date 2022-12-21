@@ -24,6 +24,8 @@ namespace Main {
             services.ConfigureIISIntegration();
             services.ConfigureLoggerService();
             services.AddRazorPages();
+            services.ConfigureSqlContext(Configuration);
+            services.ConfigureRepositoryManager();
             services.AddControllers();
         }
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env) {
