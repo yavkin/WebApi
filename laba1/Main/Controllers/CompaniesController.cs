@@ -14,6 +14,7 @@ using static Contracts.Class1;
 
 namespace Main.Controllers
 {
+    [ApiVersion("1.0")]
     [Route("api/companies")]
     [ApiController]
     public class CompaniesController : ControllerBase
@@ -120,6 +121,12 @@ namespace Main.Controllers
             _repository.Company.DeleteCompany(company);
             await _repository.SaveAsync();
             return NoContent();
+        }
+        [HttpOptions]
+        public IActionResult GetCompaniesOptions()
+        {
+            Response.Headers.Add("Allow", "GET, OPTIONS, POST");
+            return Ok();
         }
     }
 
