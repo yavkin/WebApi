@@ -14,5 +14,7 @@ namespace Contracts
             employee.CompanyId = companyId;
             Create(employee);
         }
+
+        void Create(Employee employee);
     }
 }
