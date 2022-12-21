@@ -30,6 +30,7 @@ namespace Main.ActionFilters
             if (company == null)
             {
                 _logger.LogInfo($"Company with id: {companyId} doesn't exist in the database.");
+
                 context.Result = new NotFoundResult();
                 return;
             }
