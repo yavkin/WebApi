@@ -1,4 +1,6 @@
 using AutoMapper;
+using Contracts;
+using Entities.DataTransferObjects;
 using Main.ActionFilters;
 using Main.Extensions;
 using Microsoft.AspNetCore.Builder;
@@ -10,6 +12,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using NLog;
+using Repository.DataShaping;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -48,6 +51,8 @@ namespace Main {
             services.AddScoped<ValidateEmployeeForCompanyExistsAttribute>();
             services.AddScoped<ValidateRealtyCompanyExistsAttribute>();
             services.AddScoped<ValidateClientForCompanyExistsAttribute>();
+            services.AddScoped<IDataShaper<EmployeeDto>, DataShaper<EmployeeDto>>();
+
         }
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerManager logger)
         { 
