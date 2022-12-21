@@ -26,5 +26,10 @@ FindByCondition(x => ids.Contains(x.Id), trackChanges).ToList();
         {
             Delete(company);
         }
+
+        public void CreateCompany(Company company)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
