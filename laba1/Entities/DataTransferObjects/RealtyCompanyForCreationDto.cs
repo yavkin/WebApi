@@ -4,11 +4,11 @@ using System.Text;
 
 namespace Entities.DataTransferObjects
 {
-    public class RealtyCompanyDto
+    public class RealtyCompanyForCreationDto
     {
-        public Guid Id { get; set; }
         public string Name { get; set; }
         public string Location { get; set; }
         public string Country { get; set; }
+        public IEnumerable<ClientForCreationDto> Clients { get; set; }
     }
 }

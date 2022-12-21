@@ -28,6 +28,13 @@ namespace Main {
             services.AddRazorPages();
             services.ConfigureSqlContext(Configuration);
             services.ConfigureRepositoryManager();
+            services.AddControllers(config =>
+            {
+                config.RespectBrowserAcceptHeader = true;
+                config.ReturnHttpNotAcceptable = true;
+            }).AddXmlDataContractSerializerFormatters()
+.AddCustomCSVFormatter()
+.AddCustomCSVFormatter2();
             services.AddAutoMapper(typeof(Startup));
             services.AddControllers();
         }
