@@ -12,6 +12,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using static Contracts.Class1;
+
 namespace Main {
     public class Startup {
         public Startup(IConfiguration configuration) {
@@ -28,7 +30,8 @@ namespace Main {
             services.ConfigureRepositoryManager();
             services.AddControllers();
         }
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env) {
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerManager logger)
+        { 
             if (env.IsDevelopment()) {
                 app.UseDeveloperExceptionPage();
             }
@@ -36,6 +39,7 @@ namespace Main {
                 app.UseExceptionHandler("/Error");
                 app.UseHsts();
             }
+            app.ConfigureExceptionHandler(logger);
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseStaticFiles();
@@ -45,9 +49,11 @@ namespace Main {
             });
             app.UseRouting();
             app.UseAuthorization();
-            app.UseEndpoints(endpoints => {
-                endpoints.MapRazorPages();
-                endpoints.MapControllers();
+            app.UseEndpoints(endpoints => 
+            {
+            endpoints.MapControllerRoute(
+                name: "default",
+                pattern: "{controller=Home}/{action=Index}/{id?}");
             });
         }
     }
