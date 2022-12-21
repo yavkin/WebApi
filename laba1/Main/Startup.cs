@@ -1,4 +1,5 @@
 using AutoMapper;
+using Main.ActionFilters;
 using Main.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -42,6 +43,10 @@ namespace Main {
             {
                 options.SuppressModelStateInvalidFilter = true;
             });
+            services.AddScoped<ValidationFilterAttribute>();
+            services.AddScoped<ValidateCompanyExistsAttribute>();
+            services.AddScoped<ValidateEmployeeForCompanyExistsAttribute>();
+
         }
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerManager logger)
         { 
