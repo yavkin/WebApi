@@ -28,7 +28,13 @@ namespace Main {
             services.AddRazorPages();
             services.ConfigureSqlContext(Configuration);
             services.ConfigureRepositoryManager();
-            services.AddControllers();
+            services.AddControllers(config =>
+            {
+                config.RespectBrowserAcceptHeader = true;
+                config.ReturnHttpNotAcceptable = true;
+            }).AddXmlDataContractSerializerFormatters()
+.AddCustomCSVFormatter()
+.AddCustomCSVFormatter2();
         }
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerManager logger)
         { 

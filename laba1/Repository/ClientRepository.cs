@@ -3,6 +3,7 @@ using Entities;
 using Entities.Models;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace Repository
@@ -13,5 +14,11 @@ namespace Repository
         : base(repositoryContext)
         {
         }
+        public IEnumerable<Client> GetClients(Guid realtycompanyId, bool trackChanges) =>
+FindByCondition(e => e.RealtyCompanyId.Equals(realtycompanyId), trackChanges)
+.OrderBy(e => e.Name);
+        public Client GetClient(Guid realtycompanyId, Guid id, bool trackChanges) =>
+FindByCondition(e => e.RealtyCompanyId.Equals(realtycompanyId) && e.Id.Equals(id),
+trackChanges).SingleOrDefault();
     }
 }

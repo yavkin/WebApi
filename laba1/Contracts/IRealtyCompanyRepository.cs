@@ -8,6 +8,6 @@ namespace Contracts
     public interface IRealtyCompanyRepository
     {
         IEnumerable<RealtyCompany> GetAllRealtyCompanies(bool trackChanges);
-        void AnyMethodFromRealtyCompanyRepository();
+        RealtyCompany GetRealtyCompany(Guid realtycompanyId, bool trackChanges);
     }
 }
