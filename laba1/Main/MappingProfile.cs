@@ -19,6 +19,7 @@ namespace Main
             CreateMap<CompanyForCreationDto, Company>();
             CreateMap<EmployeeForUpdateDto, Employee>().ReverseMap();
             CreateMap<CompanyForUpdateDto, Company>();
+
         }
     }
 }
