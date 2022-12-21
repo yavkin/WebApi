@@ -9,8 +9,8 @@ namespace Contracts
     {
         IEnumerable<RealtyCompany> GetAllRealtyCompanies(bool trackChanges);
         RealtyCompany GetRealtyCompany(Guid realtycompanyId, bool trackChanges);
-        public void CreateRealtyCompany(RealtyCompany realtycompany) => Create(realtycompany);
-        void Create(RealtyCompany realtycompany);
+        void CreateRealtyCompany(RealtyCompany realtycompany);
+        void DeleteRealtyCompany(RealtyCompany realtycompany);
         IEnumerable<RealtyCompany> GetByIds(IEnumerable<Guid> ids, bool trackChanges);
     }
 }

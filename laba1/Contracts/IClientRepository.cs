@@ -9,12 +9,7 @@ namespace Contracts
     {
         IEnumerable<Client> GetClients(Guid realtycompanyId, bool trackChanges);
         Client GetClient(Guid realtycompanyId, Guid id, bool trackChanges);
-        void CreateClientForCompany(Guid realtycompanyId, Client client)
-        {
-            client.RealtyCompanyId = realtycompanyId;
-            Create(client);
-        }
-
-        void Create(Client client);
+        void CreateClientForCompany(Guid realtycompanyId, Client client);
+        void DeleteClient(Client client);
     }
 }

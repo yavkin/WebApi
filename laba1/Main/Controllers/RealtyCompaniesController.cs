@@ -95,5 +95,18 @@ namespace Main.Controllers
             return CreatedAtRoute("RealtyCompanyCollection", new { ids },
             realtycompanyCollectionToReturn);
         }
+        [HttpDelete("{id}")]
+        public IActionResult DeleteRealtyCompany(Guid id)
+        {
+            var realtycompany = _repository.RealtyCompany.GetRealtyCompany(id, trackChanges: false);
+            if (realtycompany == null)
+            {
+                _logger.LogInfo($"RealtyCompany with id: {id} doesn't exist in the database.");
+                return NotFound();
+            }
+            _repository.RealtyCompany.DeleteRealtyCompany(realtycompany);
+            _repository.Save();
+            return NoContent();
+        }
     }
 }

@@ -33,17 +33,11 @@ namespace Main {
             {
                 config.RespectBrowserAcceptHeader = true;
                 config.ReturnHttpNotAcceptable = true;
-            }).AddXmlDataContractSerializerFormatters()
-.AddCustomCSVFormatter()
-.AddCustomCSVFormatter2();
-            services.AddAutoMapper(typeof(Startup));
-            services.AddControllers(config =>
-            {
-                config.RespectBrowserAcceptHeader = true;
-                config.ReturnHttpNotAcceptable = true;
             }).AddNewtonsoftJson()
             .AddXmlDataContractSerializerFormatters()
-            .AddCustomCSVFormatter();
+            .AddCustomCSVFormatter()
+            .AddCustomCSVFormatter2();
+            services.AddAutoMapper(typeof(Startup));
         }
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerManager logger)
         { 

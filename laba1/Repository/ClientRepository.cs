@@ -20,5 +20,14 @@ FindByCondition(e => e.RealtyCompanyId.Equals(realtycompanyId), trackChanges)
         public Client GetClient(Guid realtycompanyId, Guid id, bool trackChanges) =>
 FindByCondition(e => e.RealtyCompanyId.Equals(realtycompanyId) && e.Id.Equals(id),
 trackChanges).SingleOrDefault();
+        public void DeleteClient(Client client)
+        {
+            Delete(client);
+        }
+
+        public void CreateClientForCompany(Guid realtycompanyId, Client client)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

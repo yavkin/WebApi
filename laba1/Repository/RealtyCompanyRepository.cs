@@ -25,5 +25,16 @@ namespace Repository
             .ToList();
         public RealtyCompany GetRealtyCompany(Guid realtycompanyId, bool trackChanges) => FindByCondition(c
 => c.Id.Equals(realtycompanyId), trackChanges).SingleOrDefault();
+        public IEnumerable<RealtyCompany> GetByIds(IEnumerable<Guid> ids, bool trackChanges) =>
+FindByCondition(x => ids.Contains(x.Id), trackChanges).ToList();
+        public void DeleteRealtyCompany(RealtyCompany realtycompany)
+        {
+            Delete(realtycompany);
+        }
+
+        public void CreateRealtyCompany(RealtyCompany realtycompany)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
