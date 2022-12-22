@@ -37,12 +37,10 @@ namespace Repository
         {
             throw new NotImplementedException();
         }
-
         public Task<Client> GetClientAsync(Guid realtycompanyId, Guid id, bool trackChanges)
         {
             throw new NotImplementedException();
         }
-
         public void CreateClientForCompany(Guid realtycompanyId, Client client)
         {
             throw new NotImplementedException();

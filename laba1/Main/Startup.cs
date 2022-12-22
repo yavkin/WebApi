@@ -52,6 +52,7 @@ namespace Main {
             services.AddScoped<ValidateRealtyCompanyExistsAttribute>();
             services.AddScoped<ValidateClientForCompanyExistsAttribute>();
             services.AddScoped<IDataShaper<EmployeeDto>, DataShaper<EmployeeDto>>();
+            services.AddScoped<IDataShaper<ClientDto>, DataShaper<ClientDto>>();
 
         }
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerManager logger)
