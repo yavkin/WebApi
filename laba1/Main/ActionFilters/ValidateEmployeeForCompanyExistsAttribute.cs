@@ -30,8 +30,8 @@ namespace Main.ActionFilters
             if (company == null)
             {
                 _logger.LogInfo($"Company with id: {companyId} doesn't exist in the database.");
-            return;
                 context.Result = new NotFoundResult();
+                return;
             }
             var id = (Guid)context.ActionArguments["id"];
             var employee = await _repository.Employee.GetEmployeeAsync(companyId, id, trackChanges);

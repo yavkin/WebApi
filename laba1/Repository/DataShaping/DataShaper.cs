@@ -42,7 +42,6 @@ namespace Repository.DataShaping
                     if (property == null)
                         continue;
                     requiredProperties.Add(property);
-                    141
                 }
             }
             else

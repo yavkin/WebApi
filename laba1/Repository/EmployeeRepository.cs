@@ -21,9 +21,6 @@ namespace Repository
         public async Task<PagedList<Employee>> GetEmployeesAsync(Guid companyId, EmployeeParameters employeeParameters, bool trackChanges)
         {
             var employees = await FindByCondition(e => e.CompanyId.Equals(companyId), trackChanges)
-            .FilterEmployees(employeeParameters.MinAge, employeeParameters.MaxAge)
-            .Search(employeeParameters.SearchTerm)
-            .Sort(employeeParameters.OrderBy)
             .ToListAsync();
             return PagedList<Employee>
             .ToPagedList(employees, employeeParameters.PageNumber,
@@ -32,6 +29,21 @@ namespace Repository
         public void DeleteEmployee(Employee employee)
         {
             Delete(employee);
+        }
+
+        Task<IEnumerable<Employee>> IEmployeeRepository.GetEmployeesAsync(Guid companyId, EmployeeParameters employeeParameters, bool trackChanges)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<Employee> GetEmployeeAsync(Guid companyId, Guid id, bool trackChanges)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void CreateEmployeeForCompany(Guid companyId, Employee employee)
+        {
+            throw new NotImplementedException();
         }
     }
 }
