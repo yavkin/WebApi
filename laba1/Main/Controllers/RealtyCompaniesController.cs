@@ -2,6 +2,7 @@
 using Contracts;
 using Entities.DataTransferObjects;
 using Entities.Models;
+using Main.ActionFilters;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Binders;
@@ -52,24 +53,25 @@ namespace Main.Controllers
             }
         }
         [HttpPost]
+        [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> CreateRealtyCompany([FromBody] RealtyCompanyForCreationDto realtycompany)
         {
-            if (realtycompany == null)
-            {
-                _logger.LogError("RealtyCompanyForCreationDto object sent from client is null.");
-                return BadRequest("RealtyCompanyForCreationDto object is null");
-            }
-            if (!ModelState.IsValid)
-            {
-                _logger.LogError("Invalid model state for the RealtyCompanyForCreationDto object");
-                return UnprocessableEntity(ModelState);
-            }
             var realtycompanyEntity = _mapper.Map<RealtyCompany>(realtycompany);
             _repository.RealtyCompany.CreateRealtyCompany(realtycompanyEntity);
             await _repository.SaveAsync();
             var realtycompanyToReturn = _mapper.Map<RealtyCompanyDto>(realtycompanyEntity);
             return CreatedAtRoute("RealtyCompanyById", new { id = realtycompanyToReturn.Id },
-           realtycompanyToReturn);
+            realtycompanyToReturn);
+        }
+        [HttpPut("{id}")]
+        [ServiceFilter(typeof(ValidationFilterAttribute))]
+        [ServiceFilter(typeof(ValidateRealtyCompanyExistsAttribute))]
+        public async Task<IActionResult> UpdateRealtyCompany(Guid id, [FromBody] RealtyCompanyForUpdateDto realtycompany)
+        {
+            var realtycompanyEntity = HttpContext.Items["realtycompany"] as RealtyCompany;
+            _mapper.Map(realtycompany, realtycompanyEntity);
+            await _repository.SaveAsync();
+            return NoContent();
         }
         [HttpGet("collection/({ids})", Name = "RealtyCompanyCollection")]
         public async Task<IActionResult> GetRealtyCompanyCollection(IEnumerable<Guid> ids)
@@ -110,40 +112,11 @@ namespace Main.Controllers
             realtycompanyCollectionToReturn);
         }
         [HttpDelete("{id}")]
+        [ServiceFilter(typeof(ValidateRealtyCompanyExistsAttribute))]
         public async Task<IActionResult> DeleteRealtyCompany(Guid id)
         {
-            var realtycompany = await _repository.RealtyCompany.GetRealtyCompanyAsync(id, trackChanges: false);
-            if (realtycompany == null)
-            {
-                _logger.LogInfo($"RealtyCompany with id: {id} doesn't exist in the database.");
-                return NotFound();
-            }
+            var realtycompany = HttpContext.Items["realtycompany"] as RealtyCompany;
             _repository.RealtyCompany.DeleteRealtyCompany(realtycompany);
-            await _repository.SaveAsync();
-            return NoContent();
-        }
-        [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateCompany(Guid id, [FromBody] CompanyForUpdateDto company)
-        {
-            if (company == null)
-            {
-                _logger.LogError("CompanyForUpdateDto object sent from client is null.");
-                return BadRequest("CompanyForUpdateDto object is null");
-            }
-            if (!ModelState.IsValid)
-            {
-                _logger.LogError("Invalid model state for the CompanyForUpdateDto object");
-                return UnprocessableEntity(ModelState);
-            }
-            var companyEntity = await _repository.Company.GetCompanyAsync(id,
-           trackChanges:
-            true);
-            if (companyEntity == null)
-            {
-                _logger.LogInfo($"Company with id: {id} doesn't exist in the database.");
-                return NotFound();
-            }
-            _mapper.Map(company, companyEntity);
             await _repository.SaveAsync();
             return NoContent();
         }

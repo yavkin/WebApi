@@ -2,9 +2,12 @@
 using Contracts;
 using Entities.DataTransferObjects;
 using Entities.Models;
+using Entities.RequestFeatures;
+using Main.ActionFilters;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,25 +31,22 @@ namespace Main.Controllers
             _logger = logger;
             _mapper = mapper;
         }
-        [HttpGet("{id}", Name = "GetClientForCompany")]
-        public IActionResult GetClientForCompany(Guid realtycompanyId, Guid id)
+        [HttpGet]
+        public async Task<IActionResult> GetClientsForCompany(Guid realtycompanyId, [FromQuery] ClientParameters clientParameters)
         {
-            var realtycompany = _repository.RealtyCompany.GetRealtyCompanyAsync(realtycompanyId, trackChanges: false);
+            if (!clientParameters.ValidAgeRange)
+                return BadRequest("Max age can't be less than min age.");
+            var realtycompany = await _repository.RealtyCompany.GetRealtyCompanyAsync(realtycompanyId, trackChanges: false);
             if (realtycompany == null)
             {
-                _logger.LogInfo($"Company with id: {realtycompanyId} doesn't exist in the database.");
+                _logger.LogInfo($"RealtyCompany with id: {realtycompanyId} doesn't exist in the database.");
                 return NotFound();
             }
-            var clientDb = _repository.Client.GetClient(realtycompanyId, id,
-           trackChanges:
-            false);
-            if (clientDb == null)
-            {
-                _logger.LogInfo($"Employee with id: {id} doesn't exist in the database.");
-                return NotFound();
-            }
-            var client = _mapper.Map<ClientDto>(clientDb);
-            return Ok(client);
+            var clientsFromDb = await _repository.Client.GetClientsAsync(realtycompanyId,
+            clientParameters, trackChanges: false);
+            Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(clientsFromDb));
+            var clientsDto = _mapper.Map<IEnumerable<EmployeeDto>>(clientsFromDb);
+            return Ok(clientsDto);
         }
         [HttpPost]
         public IActionResult CreateClientForCompany(Guid realtycompanyId, [FromBody] ClientForCreationDto client)
@@ -56,11 +56,10 @@ namespace Main.Controllers
                 _logger.LogError("ClientForCreationDto object sent from client is null.");
                 return BadRequest("ClientForCreationDto object is null");
             }
-            var realtycompany = _repository.RealtyCompany.GetRealtyCompanyAsync(realtycompanyId, trackChanges: false);
-            if (realtycompany == null)
+            if (!ModelState.IsValid)
             {
-                _logger.LogInfo($"Company with id: {realtycompanyId} doesn't exist in the database.");
-                return NotFound();
+                _logger.LogError("Invalid model state for the patch document");
+                return UnprocessableEntity(ModelState);
             }
             var clientEntity = _mapper.Map<Client>(client);
             _repository.Client.CreateClientForCompany(realtycompanyId, clientEntity);
@@ -73,95 +72,44 @@ namespace Main.Controllers
             }, clientToReturn);
         }
         [HttpDelete("{id}")]
-        public IActionResult DeleteClientForRealtyCompany(Guid realtycompanyId, Guid id)
+        [ServiceFilter(typeof(ValidateClientForCompanyExistsAttribute))]
+        public async Task<IActionResult> DeleteClientForCompany(Guid realtycompanyId, Guid id)
         {
-            var realtycompany = _repository.RealtyCompany.GetRealtyCompanyAsync(realtycompanyId, trackChanges: false);
-            if (realtycompany == null)
-            {
-                _logger.LogInfo($"Company with id: {realtycompanyId} doesn't exist in the database.");
-                return NotFound();
-            }
-            var clientForCompany = _repository.Client.GetClient(realtycompanyId, id,
-            trackChanges: false);
-            if (clientForCompany == null)
-            {
-                _logger.LogInfo($"Client with id: {id} doesn't exist in the database.");
-                return NotFound();
-            }
+            var clientForCompany = HttpContext.Items["client"] as Client;
             _repository.Client.DeleteClient(clientForCompany);
-            _repository.Save();
+            await _repository.SaveAsync();
             return NoContent();
         }
         [HttpPut("{id}")]
-        public IActionResult UpdateClientForCompany(Guid realtycompanyId, Guid id, [FromBody] ClientForUpdateDto client)
+        [ServiceFilter(typeof(ValidationFilterAttribute))]
+        [ServiceFilter(typeof(ValidateClientForCompanyExistsAttribute))]
+        public async Task<IActionResult> UpdateClientForCompany(Guid realtycompanyId, Guid id, [FromBody] ClientForUpdateDto client)
         {
-            if (client == null)
-            {
-                _logger.LogError("ClientForUpdateDto object sent from client is null.");
-                return BadRequest("ClientForUpdateDto object is null");
-            }
-            var realtycompany = _repository.RealtyCompany.GetRealtyCompanyAsync(realtycompanyId, trackChanges: false);
-            if (realtycompany == null)
-            {
-                _logger.LogInfo($"RealtyCompany with id: {realtycompanyId} doesn't exist in the database.");
-                return NotFound();
-            }
-            var clientEntity = _repository.Client.GetClient(realtycompanyId, id,
-           trackChanges:
-            true);
-            if (clientEntity == null)
-            {
-                _logger.LogInfo($"Client with id: {id} doesn't exist in the database.");
-                return NotFound();
-            }
+            var clientEntity = HttpContext.Items["client"] as Client;
             _mapper.Map(client, clientEntity);
-            _repository.Save();
-            return NoContent();
-        }
-        [HttpPut("{id}")]
-        public IActionResult UpdateRealtyCompany(Guid id, [FromBody] RealtyCompanyForUpdateDto realtycompany)
-        {
-            if (realtycompany == null)
-            {
-                _logger.LogError("RealtyCompanyForUpdateDto object sent from client is null.");
-                return BadRequest("RealtyCompanyForUpdateDto object is null");
-            }
-            var realtycompanyEntity = _repository.RealtyCompany.GetRealtyCompanyAsync(id, trackChanges: true);
-            if (realtycompanyEntity == null)
-            {
-                _logger.LogInfo($"RealtyCompany with id: {id} doesn't exist in the database.");
-                return NotFound();
-            }
-            _mapper.Map(realtycompany, realtycompanyEntity);
-            _repository.Save();
+            await _repository.SaveAsync();
             return NoContent();
         }
         [HttpPatch("{id}")]
-        public IActionResult PartiallyUpdateClientForCompany(Guid realtycompanyId, Guid id, [FromBody] JsonPatchDocument<ClientForUpdateDto> patchDoc)
+        [ServiceFilter(typeof(ValidateClientForCompanyExistsAttribute))]
+        public async Task<IActionResult> PartiallyUpdateClientForCompany(Guid realtycompanyId, Guid id, [FromBody] JsonPatchDocument<ClientForUpdateDto> patchDoc)
         {
             if (patchDoc == null)
             {
                 _logger.LogError("patchDoc object sent from client is null.");
                 return BadRequest("patchDoc object is null");
             }
-            var realtycompany = _repository.RealtyCompany.GetRealtyCompanyAsync(realtycompanyId, trackChanges: false);
-            if (realtycompany == null)
-            {
-                _logger.LogInfo($"RealtyCompany with id: {realtycompanyId} doesn't exist in the database.");
-                return NotFound();
-            }
-            var clientEntity = _repository.Client.GetClient(realtycompanyId, id,
-           trackChanges:
-            true);
-            if (clientEntity == null)
-            {
-                _logger.LogInfo($"Client with id: {id} doesn't exist in the database.");
-                return NotFound();
-            }
+            var clientEntity = HttpContext.Items["client"] as Client;
             var clientToPatch = _mapper.Map<ClientForUpdateDto>(clientEntity);
-            patchDoc.ApplyTo(clientToPatch);
+            patchDoc.ApplyTo(clientToPatch, ModelState);
+            TryValidateModel(clientToPatch);
+            if (!ModelState.IsValid)
+            {
+                _logger.LogError("Invalid model state for the patch document");
+                return UnprocessableEntity(ModelState);
+            }
             _mapper.Map(clientToPatch, clientEntity);
-            _repository.Save();
+            await _repository.SaveAsync();
             return NoContent();
         }
     }

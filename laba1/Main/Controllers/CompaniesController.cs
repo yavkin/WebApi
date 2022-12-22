@@ -123,8 +123,4 @@ namespace Main.Controllers
             return NoContent();
         }
     }
-
-    internal class ArrayModelBinder
-    {
-    }
 }

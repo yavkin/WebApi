@@ -44,7 +44,7 @@ namespace Main.Controllers
             }
             var employeesFromDb = await _repository.Employee.GetEmployeesAsync(companyId,
             employeeParameters, trackChanges: false);
-            Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(employeesFromDb.MetaData));
+            Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(employeesFromDb));
             var employeesDto = _mapper.Map<IEnumerable<EmployeeDto>>(employeesFromDb);
             return Ok(employeesDto);
         }

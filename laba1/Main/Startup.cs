@@ -46,7 +46,8 @@ namespace Main {
             services.AddScoped<ValidationFilterAttribute>();
             services.AddScoped<ValidateCompanyExistsAttribute>();
             services.AddScoped<ValidateEmployeeForCompanyExistsAttribute>();
-
+            services.AddScoped<ValidateRealtyCompanyExistsAttribute>();
+            services.AddScoped<ValidateClientForCompanyExistsAttribute>();
         }
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerManager logger)
         { 
