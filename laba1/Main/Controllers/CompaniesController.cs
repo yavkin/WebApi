@@ -130,4 +130,8 @@ namespace Main.Controllers
             return Ok();
         }
     }
+
+    internal class ArrayModelBinder
+    {
+    }
 }
