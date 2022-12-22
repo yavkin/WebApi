@@ -33,5 +33,20 @@ namespace Repository
         {
             Delete(employee);
         }
+
+        Task<IEnumerable<Employee>> IEmployeeRepository.GetEmployeesAsync(Guid companyId, EmployeeParameters employeeParameters, bool trackChanges)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<Employee> GetEmployeeAsync(Guid companyId, Guid id, bool trackChanges)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void CreateEmployeeForCompany(Guid companyId, Employee employee)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
