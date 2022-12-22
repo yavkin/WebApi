@@ -11,8 +11,7 @@ namespace Main
     public class MappingProfile
     {
         public MappingProfile()
-        {
-            
-        }
+        { }
+        
     }
 }

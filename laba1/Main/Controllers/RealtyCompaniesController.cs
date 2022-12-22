@@ -120,5 +120,11 @@ namespace Main.Controllers
             await _repository.SaveAsync();
             return NoContent();
         }
+        [HttpOptions]
+        public IActionResult GetRealtyCompaniesOptions()
+        {
+            Response.Headers.Add("Allow", "GET, OPTIONS, POST");
+            return Ok();
+        }
     }
 }

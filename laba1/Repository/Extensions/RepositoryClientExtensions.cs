@@ -13,7 +13,7 @@ namespace Repository.Extensions
         public static IQueryable<Client> Sort(this IQueryable<Client> clients, string orderByQueryString)
         {
             if (string.IsNullOrWhiteSpace(orderByQueryString))
-                return client.OrderBy(e => e.Name);
+                return clients.OrderBy(e => e.Name);
             var orderParams = orderByQueryString.Trim().Split(',');
             var propertyInfos = typeof(Client).GetProperties(BindingFlags.Public |
             BindingFlags.Instance);
