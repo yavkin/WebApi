@@ -10,7 +10,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Web.Http.ModelBinding.Binders;
 using static Contracts.Class1;
 
 namespace Main.Controllers
@@ -129,5 +128,9 @@ namespace Main.Controllers
             Response.Headers.Add("Allow", "GET, OPTIONS, POST");
             return Ok();
         }
+    }
+
+    internal class ArrayModelBinder
+    {
     }
 }
