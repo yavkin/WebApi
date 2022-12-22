@@ -31,7 +31,7 @@ namespace Main.Controllers
         [HttpGet("{id}", Name = "GetClientForCompany")]
         public IActionResult GetClientForCompany(Guid realtycompanyId, Guid id)
         {
-            var realtycompany = _repository.RealtyCompany.GetRealtyCompany(realtycompanyId, trackChanges: false);
+            var realtycompany = _repository.RealtyCompany.GetRealtyCompanyAsync(realtycompanyId, trackChanges: false);
             if (realtycompany == null)
             {
                 _logger.LogInfo($"Company with id: {realtycompanyId} doesn't exist in the database.");
@@ -56,7 +56,7 @@ namespace Main.Controllers
                 _logger.LogError("ClientForCreationDto object sent from client is null.");
                 return BadRequest("ClientForCreationDto object is null");
             }
-            var realtycompany = _repository.RealtyCompany.GetRealtyCompany(realtycompanyId, trackChanges: false);
+            var realtycompany = _repository.RealtyCompany.GetRealtyCompanyAsync(realtycompanyId, trackChanges: false);
             if (realtycompany == null)
             {
                 _logger.LogInfo($"Company with id: {realtycompanyId} doesn't exist in the database.");
@@ -75,7 +75,7 @@ namespace Main.Controllers
         [HttpDelete("{id}")]
         public IActionResult DeleteClientForRealtyCompany(Guid realtycompanyId, Guid id)
         {
-            var realtycompany = _repository.RealtyCompany.GetRealtyCompany(realtycompanyId, trackChanges: false);
+            var realtycompany = _repository.RealtyCompany.GetRealtyCompanyAsync(realtycompanyId, trackChanges: false);
             if (realtycompany == null)
             {
                 _logger.LogInfo($"Company with id: {realtycompanyId} doesn't exist in the database.");
@@ -100,7 +100,7 @@ namespace Main.Controllers
                 _logger.LogError("ClientForUpdateDto object sent from client is null.");
                 return BadRequest("ClientForUpdateDto object is null");
             }
-            var realtycompany = _repository.RealtyCompany.GetRealtyCompany(realtycompanyId, trackChanges: false);
+            var realtycompany = _repository.RealtyCompany.GetRealtyCompanyAsync(realtycompanyId, trackChanges: false);
             if (realtycompany == null)
             {
                 _logger.LogInfo($"RealtyCompany with id: {realtycompanyId} doesn't exist in the database.");
@@ -126,7 +126,7 @@ namespace Main.Controllers
                 _logger.LogError("RealtyCompanyForUpdateDto object sent from client is null.");
                 return BadRequest("RealtyCompanyForUpdateDto object is null");
             }
-            var realtycompanyEntity = _repository.RealtyCompany.GetRealtyCompany(id, trackChanges: true);
+            var realtycompanyEntity = _repository.RealtyCompany.GetRealtyCompanyAsync(id, trackChanges: true);
             if (realtycompanyEntity == null)
             {
                 _logger.LogInfo($"RealtyCompany with id: {id} doesn't exist in the database.");
@@ -144,7 +144,7 @@ namespace Main.Controllers
                 _logger.LogError("patchDoc object sent from client is null.");
                 return BadRequest("patchDoc object is null");
             }
-            var realtycompany = _repository.RealtyCompany.GetRealtyCompany(realtycompanyId, trackChanges: false);
+            var realtycompany = _repository.RealtyCompany.GetRealtyCompanyAsync(realtycompanyId, trackChanges: false);
             if (realtycompany == null)
             {
                 _logger.LogInfo($"RealtyCompany with id: {realtycompanyId} doesn't exist in the database.");

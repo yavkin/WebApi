@@ -1,10 +1,12 @@
 ﻿using Contracts;
 using Entities;
 using Entities.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Repository
 {
@@ -18,7 +20,6 @@ namespace Repository
         {
             throw new NotImplementedException();
         }
-
         public IEnumerable<RealtyCompany> GetAllRealtyCompanies(bool trackChanges) =>
         FindAll(trackChanges)
             .OrderBy(c => c.Name)
@@ -31,6 +32,17 @@ FindByCondition(x => ids.Contains(x.Id), trackChanges).ToList();
         {
             Delete(realtycompany);
         }
+        public async Task<IEnumerable<RealtyCompany>> GetAllRealtyCompaniesAsync(bool trackChanges)
+=> await FindAll(trackChanges)
+ .OrderBy(c => c.Name)
+ .ToListAsync();
+        public async Task<RealtyCompany> GetRealtyCompanyAsync(Guid realtycompanyId, bool trackChanges) =>
+         await FindByCondition(c => c.Id.Equals(realtycompanyId), trackChanges)
+         .SingleOrDefaultAsync();
+        public async Task<IEnumerable<RealtyCompany>> GetByIdsAsync(IEnumerable<Guid> ids, bool
+        trackChanges) =>
+         await FindByCondition(x => ids.Contains(x.Id), trackChanges)
+         .ToListAsync();
 
         public void CreateRealtyCompany(RealtyCompany realtycompany)
         {

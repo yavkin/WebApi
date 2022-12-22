@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Web.Http.ModelBinding.Binders;
 using static Contracts.Class1;
 
 namespace Main.Controllers
@@ -73,7 +74,7 @@ company)
            companyToReturn);
         }
         [HttpGet("collection/({ids})", Name = "CompanyCollection")]
-        public async Task<IActionResult> GetCompanyCollection( [ModelBinder(BinderType = typeof(ArrayModelBinder))] IEnumerable<Guid> ids)
+        public async Task<IActionResult> GetCompanyCollection( [ModelBinder(BinderType = typeof(ByteArrayModelBinder))] IEnumerable<Guid> ids)
         {
             if (ids == null)
             {

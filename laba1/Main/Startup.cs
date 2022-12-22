@@ -36,7 +36,7 @@ namespace Main {
                 config.ReturnHttpNotAcceptable = true;
             }).AddNewtonsoftJson()
             .AddXmlDataContractSerializerFormatters()
-            .AddCustomCSVFormatter();
+            .AddCustomCSVFormatter()
             .AddCustomCSVFormatter2();
             services.Configure<ApiBehaviorOptions>(options =>
             {

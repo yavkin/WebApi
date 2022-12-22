@@ -45,5 +45,10 @@ FindByCondition(x => ids.Contains(x.Id), trackChanges).ToList();
         trackChanges) =>
          await FindByCondition(x => ids.Contains(x.Id), trackChanges)
          .ToListAsync();
+
+        public void CreateCompany(Company company)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
