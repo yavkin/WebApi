@@ -24,5 +24,10 @@ trackChanges).SingleOrDefault();
         {
             Delete(employee);
         }
+
+        public void CreateEmployeeForCompany(Guid companyId, Employee employee)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
