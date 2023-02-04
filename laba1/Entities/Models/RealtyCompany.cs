@@ -12,8 +12,8 @@ namespace Entities.Models
         public Guid Id { get; set; }
         [Required(ErrorMessage = "Realty Company name is a required field.")]
         [MaxLength(60, ErrorMessage = "Maximum length for the Name is 60 characters.")] public string Name { get; set; }
-        [Required(ErrorMessage = "Realty Company address is a required field.")]
-        [MaxLength(60, ErrorMessage = "Maximum length for rhe Address is 60 characte")]
+        [Required(ErrorMessage = "Realty Company location is a required field.")]
+        [MaxLength(60, ErrorMessage = "Maximum length for rhe Location is 60 characte")]
         public string Location { get; set; }
         public string Country { get; set; }
         public ICollection<Client> Clients { get; set; }
