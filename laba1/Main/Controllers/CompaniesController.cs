@@ -152,4 +152,8 @@ company)
             return NoContent();
         }
     }
+
+    internal class ArrayModelBinder
+    {
+    }
 }
